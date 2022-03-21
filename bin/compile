@@ -107,9 +107,14 @@ mkdir -p $BUILD_DIR/.lein
 LEIN_PROFILES_SOURCE="$(dirname $0)/../opt/profiles.clj"
 cp -n $LEIN_PROFILES_SOURCE "$BUILD_DIR/.lein/profiles.clj"
 
+# Setup SSH agent and private key
+eval $(ssh-agent -s)
+ssh-add - <<< "${DEPLOY_KEY}"
 
-# Start ssh agent (newer cli tools use it to access private repositories)
-eval "$(ssh-agent -s)"
+echo "-----> Authorize SSH host"
+mkdir -p ~/.ssh
+chmod 0700 ~/.ssh
+ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 echo "-----> Installing Babashka"
 # install babashka
