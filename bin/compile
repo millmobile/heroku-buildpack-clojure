@@ -117,14 +117,18 @@ echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
 echo "   LogLevel ERROR" >> ~/.ssh/config
 echo "-----> Installed SSH key from DEPLOY_KEYS"
 
+cat ~/.ssh/config
+
 # install the ssh key
 ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2> /dev/null
-echo $DEPLOY_KEY >> ~/.ssh/id_rsa
-echo $DEPLOY_KEY2 >> ~/.ssh/id_rsa
-echo >> ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
-
-cat ~/.ssh/id_rsa
+echo $DEPLOY_KEY >> ~/.ssh/id_rsa_1
+echo $DEPLOY_KEY2 >> ~/.ssh/id_rsa_2
+echo >> ~/.ssh/id_rsa_1
+echo >> ~/.ssh/id_rsa_2
+chmod 600 ~/.ssh/id_rsa_1
+chmod 600 ~/.ssh/id_rsa_2
+cat ~/.ssh/id_rsa_1
+cat ~/.ssh/id_rsa_2
 
 echo "-----> Installing Babashka"
 # install babashka
