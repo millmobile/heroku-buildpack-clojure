@@ -114,6 +114,7 @@ if [ -z ${DEPLOY_KEY+x} ]; then
 else
   # Setup SSH agent and private key
   ssh-add - <<< "${DEPLOY_KEY}"
+  ssh-keyscan github.com
 fi
 
 if [ -z ${DEPLOY_KEY2+x} ]; then
@@ -121,6 +122,7 @@ if [ -z ${DEPLOY_KEY2+x} ]; then
 else
   # Setup SSH agent and private key
   ssh-add - <<< "${DEPLOY_KEY2}"
+  ssh-keyscan github.com
 fi
 
 echo "-----> Authorize SSH host"
