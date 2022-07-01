@@ -107,34 +107,22 @@ mkdir -p $BUILD_DIR/.lein
 LEIN_PROFILES_SOURCE="$(dirname $0)/../opt/profiles.clj"
 cp -n $LEIN_PROFILES_SOURCE "$BUILD_DIR/.lein/profiles.clj"
 
-eval $(ssh-agent -s)
-
-if [ -z ${DEPLOY_KEY+x} ]; then
-  echo "Variable 'DEPLOY_KEY' is not set. Skip adding SSH key!";
-else
-  # Setup SSH agent and private key
-  ssh-add - <<< "${DEPLOY_KEY}"
-  ssh-keyscan github.com
-fi
-
-if [ -z ${DEPLOY_KEY2+x} ]; then
-  echo "Variable 'DEPLOY_KEY2' is not set. Skip adding SSH key!";
-else
-  # Setup SSH agent and private key
-  ssh-add - <<< "${DEPLOY_KEY2}"
-  ssh-keyscan github.com
-fi
-
-echo "-----> Authorize SSH host"
 mkdir -p ~/.ssh
-chmod 0700 ~/.ssh
-ssh-keyscan github.com >> ~/.ssh/known_hosts
+chmod 700 ~/.ssh
 
-ssh-keyscan github.com
-cat ~/.ssh/known_hosts
+# ignore/hide ssh warnings
+echo "Host *" >> ~/.ssh/config
+echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
+echo "   LogLevel ERROR" >> ~/.ssh/config
+echo "-----> Installed SSH key from DEPLOY_KEYS"
 
-echo "-----> list ssh keys" 
-ssh-add -L
+# install the ssh key
+ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2> /dev/null
+echo $DEPLOY_KEY >> ~/.ssh/id_rsa
+echo $DEPLOY_KEY2 >> ~/.ssh/id_rsa
+echo >> ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
 
 echo "-----> Installing Babashka"
 # install babashka
