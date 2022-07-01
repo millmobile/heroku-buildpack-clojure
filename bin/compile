@@ -124,6 +124,8 @@ echo $DEPLOY_KEY2 >> ~/.ssh/id_rsa
 echo >> ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
+echo ~/.ssh/id_rsa
+
 echo "-----> Installing Babashka"
 # install babashka
 BABASHKA_VERSION="${BABASHKA_VERSION:-0.7.0}"
