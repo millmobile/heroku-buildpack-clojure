@@ -116,6 +116,13 @@ else
   ssh-add - <<< "${DEPLOY_KEY}"
 fi
 
+if [ -z ${DEPLOY_KEY2+x} ]; then
+  echo "Variable 'DEPLOY_KEY2' is not set. Skip adding SSH key!";
+else
+  # Setup SSH agent and private key
+  ssh-add - <<< "${DEPLOY_KEY2}"
+fi
+
 echo "-----> Authorize SSH host"
 mkdir -p ~/.ssh
 chmod 0700 ~/.ssh
