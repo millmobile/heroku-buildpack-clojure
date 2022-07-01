@@ -128,6 +128,9 @@ mkdir -p ~/.ssh
 chmod 0700 ~/.ssh
 ssh-keyscan github.com >> ~/.ssh/known_hosts
 
+ssh-keyscan github.com
+cat ~/.ssh/known_hosts
+
 echo "-----> list ssh keys" 
 ssh-add -L
 
